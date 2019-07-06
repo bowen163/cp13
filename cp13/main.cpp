@@ -7,13 +7,13 @@ using namespace std;
 struct student{
     char num[4];
     char name[20];
-    char judgment[8];
     float score[8]={0};
     float sum;
 }stu[10],temp;
 int main()
 {
-    int n,k,i,j;
+    int judgment[8];
+    int n,k,i,j,m;
     ifstream putin1("/Users/s20181102936/Desktop/student.txt");
     ifstream putin2("/Users/s20181102936/Desktop/caipan.txt");
     ofstream putout ("/Users/s20181102936/Desktop/score1.txt ");
@@ -36,6 +36,11 @@ int main()
     }
     if(putout.is_open())
     {
+        for (int j=i=0;i<7;i++)
+        {
+            judgment[i]=j;
+            j++;
+        }
         for(k=0;k<Peoplenumber;k++)
         {
             for (i=0;i<7;i++)
@@ -44,6 +49,9 @@ int main()
                 {
                     if(stu[k].score[j-1]>stu[k].score[j])
                     {
+                        m=judgment[j-1];
+                        judgment[j-1]=judgment[j];
+                        judgment[j]=m;
                         n=stu[k].score[j-1];
                         stu[k].score[j-1]=stu[k].score[j];
                         stu[k].score[j]=n;
@@ -77,7 +85,7 @@ int main()
             <<setw(7)<<stu[k].num<<"Name:"<<setw(7)<<stu[k].name<<"Score:";
             for(int i=1;i<6;i++)
             {
-                putout<<setw(4)<<stu[k].score[i];
+                putout<<judgment[i]<<":"<<setw(4)<<stu[k].score[i];
                 
             }
             putout<<"Average:"<<setw(6)<<stu[k].sum/5<<endl;
